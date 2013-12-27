@@ -1,0 +1,159 @@
+body {
+	font-family: 'Lato', sans serif; 
+}
+.loading {
+	background-color: #F9FFAC;
+	text-align: center;
+	padding: 5px 0;
+}
+
+.button {
+	border: solid 1px #AAA;
+	background-color: #F8F8F8;
+	padding: 5px;
+	float: right;
+	margin-right: 10px;
+}
+.button:hover {
+	background-color: #EEE;
+}
+
+.nav {
+	margin-left: 50px;
+	margin-bottom: 30px;
+	margin-top: 20px;
+}
+.nav div {
+	padding-bottom: 10px;
+	margin-right: 20px;
+	display: inline-table;
+	padding-right: 5px;
+	padding-left: 5px;
+}
+.nav .nav-item:hover {
+	padding-bottom: 5px;
+	border-bottom: solid 5px #555;
+}
+.nav a {
+	text-decoration: none;
+	color: #000;
+}
+
+.search {
+	display: inline-table;
+}
+.search input {
+	padding: 0 2px;
+}
+
+
+.content {
+	padding-bottom: 100px;
+}
+
+.article {
+	padding: 10px 10px;
+	border-bottom: solid 1px #888;
+}
+.article:hover {
+	background-color: #FAFAFA;
+}
+.content .article:nth-of-type(1) {
+	border-top: solid 1px #888;
+}
+.article.viewed {
+	background-color: #FAFAFA;
+}
+.article .vote {
+	float: right;
+	margin-right: 20px;
+	margin-top: 2px;
+	font-size: 100%;
+	color: #E0E0E0;
+}
+.vote .up:hover {
+	color: #34A034;
+	cursor: pointer;
+}
+.vote .down:hover {
+	color: #DB4238;
+	cursor: pointer;
+}
+.vote.up {
+	color: #34A034;
+}
+.vote.up:hover {
+	color: #E0E0E0;
+	cursor: pointer;
+}
+.vote.down {
+	color: #DB4238;
+}
+.vote.down:hover {
+	color: #E0E0E0;
+	cursor: pointer;
+}
+.article .title a {
+	font-size: 100%;
+	font-weight: bold;
+	color: #000;
+	text-decoration: none;
+}
+.article .feed a {
+	font-size: 60%;
+	line-height: 60%;
+	color: #000;
+	text-decoration: none;
+}
+.article .feed a:hover {
+	text-decoration: underline;
+}
+.article .published {
+	font-size: 60%;
+	color: #888;
+}
+.article .published .ago:hover:after {
+	content: attr(time);
+}
+
+.keyword {
+	font-size: 60%;
+	color: #AAA;
+	text-decoration: none;
+}
+.keyword:hover {
+	color: #000;
+}
+
+.feedd {
+	padding: 10px 5px;
+	border-left: solid 5px #CCC;
+	border-bottom: solid 1px #888;
+}
+.feedd:nth-of-type(1) {
+	border-top: solid 1px #888;
+}
+.feedd .name a {
+	font-size: 100%;
+	font-weight: bold;
+	color: #000;
+	text-decoration: none;
+}
+.feedd:hover {
+	background-color: #FBFBFB;
+}
+.feedd .url a {
+	font-size: 60%;
+	line-height: 60%;
+	color: #AAA;
+	text-decoration: none;
+}
+.feedd .url a:hover {
+	color: #000;
+}
+
+#refresh span {
+	background-color: #AAA;
+	color: #FFF;
+	padding: 0 3px;
+}
