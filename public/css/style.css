@@ -70,27 +70,22 @@ body {
 	font-size: 100%;
 	color: #E0E0E0;
 }
+.vote .voted:hover {
+	color: #E0E0E0;
+}
 .vote .up:hover {
 	color: #34A034;
 	cursor: pointer;
+}
+.vote .up.voted {
+	color: #34A034;
 }
 .vote .down:hover {
 	color: #DB4238;
 	cursor: pointer;
 }
-.vote.up {
-	color: #34A034;
-}
-.vote.up:hover {
-	color: #E0E0E0;
-	cursor: pointer;
-}
-.vote.down {
+.vote .down.voted {
 	color: #DB4238;
-}
-.vote.down:hover {
-	color: #E0E0E0;
-	cursor: pointer;
 }
 .article .title a {
 	font-size: 100%;

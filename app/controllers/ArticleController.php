@@ -8,7 +8,7 @@ class ArticleController extends BaseController {
 		foreach($articles as $article) {
 			$importantWords = $article->getKeywords();
 			foreach ($importantWords as $word => $tfidf) {
-				if($tfidf < 1.5)
+				if($tfidf < 1.0)
 					break;
 
 				// If word already exists in bag-of-words
@@ -40,7 +40,7 @@ class ArticleController extends BaseController {
 					$word_obj->save();
 				}
 
-				$article->points += $word_obj;
+				$article->points += $word_obj->points;
 			}
 		}
 	}
@@ -77,5 +77,25 @@ class ArticleController extends BaseController {
 	{
 		$article = Article::find($id);
 		return Response::json($article);
+	}
+
+	public function vote($id, $value)
+	{
+		$article = Article::find($id);
+		$article->vote = $value;
+		$article->save();
+
+		$keywords = $article->keywords;
+
+		foreach ($keywords as $keyword) {
+			$word = Word::find($keyword->keyword_id);
+			if ($value < 0)
+				$word->points += -1 * (($keyword->points) * 2);
+			$word->save();
+		}
+
+		$article->calcPoints();
+
+		return 'Done';
 	}
 }

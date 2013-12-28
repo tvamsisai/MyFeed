@@ -1,7 +1,7 @@
 <div class="article">
 	<div class="vote">
-		<div class="up">&#x25B2;</div>
-		<div class="down">&#x25BC;</div>
+		<div data-id="{{ $article->id }}" class="up @if($article->vote > 0)voted@endif">&#x25B2;</div>
+		<div data-id="{{ $article->id }}" class="down @if($article->vote < 0)voted@endif">&#x25BC;</div>
 	</div>
 	<div class="title">
 		<a href="{{ $article->url }}" target="_blank">{{ $article->title }}</a>

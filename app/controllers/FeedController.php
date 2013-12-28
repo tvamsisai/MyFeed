@@ -39,7 +39,8 @@ class FeedController extends BaseController {
 					$page = Input::get('page');
 				else
 					$page = 0;
-				$input['articles'] = Article::orderBy('time_pub', 'DESC')->limit(30)->skip($page*30)->get();
+				$input['articles'] = Article::select(DB::raw('*, (points/(TO_SECONDS(NOW())-TO_SECONDS(created_at)))*(10) AS popularity'))
+                     ->orderBy('popularity', 'DESC')->take(30)->skip($page*30)->get();
 			}
 		}
 		

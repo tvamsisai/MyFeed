@@ -36,6 +36,7 @@ class Feed extends Eloquent {
 				$article->save();
 
 				$article->createWordsFromArticle();
+				$article->calcPoints();
 		}
 
 		return 'Done';

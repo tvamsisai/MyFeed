@@ -11,8 +11,13 @@
 		<script>
 			var createNotif, article, feed;
 			$(document).ready(function () {
-
-				var have = {{ Article::orderBy('id', 'DESC')->first()->id }};
+				<?
+					if(Article::all()->count() > 0)
+						$lastArticle = Article::orderBy('id', 'DESC')->first()->id;
+					else
+						$lastArticle = 0;
+				?>
+				var have = {{ $lastArticle }};
 				var knownNew = 0;
 				createNotif = function  (stuff) {
 					if (window.webkitNotifications.checkPermission() == 0) {
@@ -30,10 +35,10 @@
 										}
 					    				notification.show();
 
-					    				if($.cookie('close') != 0 || $.cookie('close') != undefined)
+					    				if($.cookie('close') != 0)
 						    				setTimeout(function () {
 						    					notification.cancel();
-						    				}, (+$.cookie('close'))*1000);
+						    				}, +$.cookie('close')*1000);
 								});
 						});
 					} else {
@@ -99,6 +104,24 @@
 
 				$('.close-popup').val($.cookie('close'));
 
+				$('.up').click(function () {
+					$.ajax({
+						url: '{{ URL::to("article") }}/'+$(this).attr('data-id')+'/vote/1',
+						success: $.proxy(function(data){
+							$(this).addClass('voted');
+						}, this)
+					});
+				});
+
+				$('.down').click(function () {
+					$.ajax({
+						url: '{{ URL::to("article") }}/'+$(this).attr('data-id')+'/vote/-1',
+						success: $.proxy(function(data){
+							$(this).addClass('voted');
+						}, this)
+					});
+				});
+
 				refreshFeeds();
 				checkNew();
 			});
@@ -112,6 +135,7 @@
 			<div class="grid_12">
 				<div class="nav">
 					<div class="nav-item"><a href="{{ URL::to('/') }}">Home</a></div>
+					<div class="nav-item"><a href="{{ URL::to('/?by=recent') }}">Recent</a></div>
 					<div class="nav-item"><a href="{{ URL::to('feeds') }}">Feeds</a></div>
 					<div class="search">
 						<form method="GET" action="{{ URL::to('search') }}">

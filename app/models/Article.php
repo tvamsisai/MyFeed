@@ -59,7 +59,7 @@ class Article extends Eloquent {
         set_time_limit(200);
         $importantWords = $this->getKeywords();
         foreach ($importantWords as $word => $tfidf) {
-            if($tfidf < 1.3)
+            if($tfidf < 1.0)
                 break;
 
             // If word already exists in bag-of-words
@@ -87,9 +87,14 @@ class Article extends Eloquent {
                 $keyword->article_id = $this->id;
                 $keyword->save();
 
-                $word_obj->points += $tfidf;
+                if($this->vote != 0)
+                    $word_obj->points += $this->vote * $tfidf;
+                else
+                    $word_obj->points += $tfidf;
                 $word_obj->save();
             }
+
+            $this->points += $word_obj->points;
         }
     }
 
@@ -101,5 +106,15 @@ class Article extends Eloquent {
         foreach ($articles as $article) {
             $article->createWordsFromArticle();
         }
+    }
+
+    public function calcPoints()
+    {
+        foreach ($this->keywords as $keyword) {
+            $word = Word::find($keyword->keyword_id);
+            $this->points = 0;
+            $this->points += $word->points;
+        }
+        $this->save();
     }
 }

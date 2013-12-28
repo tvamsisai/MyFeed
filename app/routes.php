@@ -17,6 +17,7 @@ Route::get('feed/{id}', 'FeedController@showFeed');
 Route::get('feed/{id}/refresh', 'FeedController@refreshFeed');
 
 Route::get('articles/refresh', 'ArticleController@refreshArticlePoints');
+Route::get('article/{id}/vote/{value}', 'ArticleController@vote');
 Route::get('article/{id}.json', 'ArticleController@getArticle');
 
 Route::get('article/{id}/content', 'ArticleController@getKeywords');
