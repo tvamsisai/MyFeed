@@ -7,13 +7,44 @@
 		<link rel="stylesheet" type="text/css" href="{{ URL::to('css/style.css') }}">
 		<title>MyFeed</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="{{ URL::to('cookie.js') }}"></script>
 		<script>
+			var createNotif, article, feed;
 			$(document).ready(function () {
+
 				var have = {{ Article::orderBy('id', 'DESC')->first()->id }};
+				var knownNew = 0;
+				createNotif = function  (stuff) {
+					if (window.webkitNotifications.checkPermission() == 0) {
+						$.getJSON("{{ URL::to('article') }}/"+ ((+stuff)+(have)) +'.json',
+							function(data) {
+								article = data;
+								$.getJSON("{{ URL::to('feed') }}/"+ article.feed_id +'.json',
+									function(data) {
+										feed = data;
+										notification = window.webkitNotifications.createNotification(
+					      					'', article.title, feed.name);
+										notification.onclick = function () {
+											window.open(article.url);
+											notification.close();
+										}
+					    				notification.show();
+
+					    				if($.cookie('close') != 0 || $.cookie('close') != undefined)
+						    				setTimeout(function () {
+						    					notification.cancel();
+						    				}, (+$.cookie('close'))*1000);
+								});
+						});
+					} else {
+						window.webkitNotifications.requestPermission();
+					}
+				}
+
 				$("#refresh").click(function () {
 					$(".loading").show();
 					refreshFeeds();
-					setInterval(function () {
+					setTimeout(function () {
 						for (var i = 0; i < 10000; i++) {};
 					}, 10000);
 					window.location = "{{ URL::to('/') }}";
@@ -26,6 +57,13 @@
 						if(data > 0) {
 							$('#refresh').html('Refresh <span>'+ data +'</span>');
 							$('title').html('('+ data +') MyFeed');
+							if(data > knownNew) {
+								if(data - knownNew < 3)
+									for (var i = ((knownNew == 0)?1:(+knownNew)+1); i <= data; i++) {
+										createNotif(i);
+								};
+							}
+							knownNew = data;
 						}
 					});
 					setTimeout(checkNew, 10000);
@@ -44,6 +82,22 @@
 					}
 					setTimeout(refreshFeeds, 5000);
 				}
+
+				if(window.webkitNotifications.checkPermission() == 0) {
+					$('#notifs').hide();
+				}
+
+				$('#notifs').click(function () {
+					window.webkitNotifications.requestPermission();
+					if(window.webkitNotifications.checkPermission() == 0)
+						$('#notifs').hide();
+				});
+
+				$('.close-popup').change(function () {
+					$.cookie('close', $('.close-popup').val());
+				});
+
+				$('.close-popup').val($.cookie('close'));
 
 				refreshFeeds();
 				checkNew();
@@ -66,11 +120,17 @@
 					</div>
 					<a href="#" class="button" id="refresh">Refresh</a>
 					<a href="{{ URL::to('add') }}" class="button">Add Feed</a>
+					<a href="#" class="button" id="notifs">Popup</a>
 				</div>
 			</div>
 			<div class="grid_12">
 				<div class="content">
 					@yield('content', '<p style="text-align: center;">Add Some Feeds to See Stuff Here.</p>')
+				</div>
+			</div>
+			<div class="grid_12">
+				<div class="footer">
+					Close Popup in: <input class="close-popup" value="0" style="width:30px;text-align:center;"></input>seconds | (0 is don't close)
 				</div>
 			</div>
 		</div>

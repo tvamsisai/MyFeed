@@ -23,15 +23,23 @@ class FeedController extends BaseController {
 
 	public function home() {
 		$input['articles'] = "";
-
+		$input['count'] = Article::all()->count();
 		if(Input::get('by') == 'recent') {
 			if (Article::all()->count() > 0) {
-				$input['articles'] = Article::orderBy('time_pub', 'DESC')->get();
+				if (Input::get('page') > 0)
+					$page = Input::get('page');
+				else
+					$page = 0;
+				$input['articles'] = Article::orderBy('time_pub', 'DESC')->limit(30)->skip($page*30)->get();
 			}
 		}
 		else {
 			if (Article::all()->count() > 0) {
-				$input['articles'] = Article::orderBy('time_pub', 'DESC')->get();
+				if (Input::get('page') > 0)
+					$page = Input::get('page');
+				else
+					$page = 0;
+				$input['articles'] = Article::orderBy('time_pub', 'DESC')->limit(30)->skip($page*30)->get();
 			}
 		}
 		
@@ -56,7 +64,12 @@ class FeedController extends BaseController {
 
 		$input['articles'] = "";
 		if(Article::where('feed_id', '=', $id)->count() > 0) {
-			$input['articles'] = Article::where('feed_id', '=', $id)->orderBy('time_pub', 'DESC')->get();
+			if (Input::get('page') > 0)
+					$page = Input::get('page');
+				else
+					$page = 0;
+			$input['articles'] = Article::where('feed_id', '=', $id)->orderBy('time_pub', 'DESC')->limit(30)->skip($page*30)->get();
+			$input['count'] = Article::where('feed_id', '=', $id)->orderBy('time_pub', 'DESC')->count();
 		}
 
 		return View::make('showFeed', $input);
@@ -66,5 +79,11 @@ class FeedController extends BaseController {
 	{
 		Feed::find($id)->getNews();
 		return 'Done';
+	}
+
+	public function getFeed($id)
+	{
+		$feed = Feed::find($id);
+		return Response::json($feed);
 	}
 }

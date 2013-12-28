@@ -52,7 +52,13 @@ class ArticleController extends BaseController {
 		if(trim($search_key) == "")
 			return View::make('search', $input);
 
-		$input['results'] = Keyword::where('keyword_id', '=', Word::where('word', 'LIKE', '%'.$search_key.'%')->first()->id)->orderBy('points', 'DESC')->get();
+		if (Input::get('page') > 0)
+			$page = Input::get('page');
+		else
+			$page = 0;
+
+		$input['count'] = Keyword::where('keyword_id', '=', Word::where('word', 'LIKE', '%'.$search_key.'%')->first()->id)->orderBy('points', 'DESC')->count();
+		$input['results'] = Keyword::where('keyword_id', '=', Word::where('word', 'LIKE', '%'.$search_key.'%')->first()->id)->orderBy('points', 'DESC')->limit(30)->skip($page*30)->get();
 		return View::make('search', $input);
 	}
 
@@ -65,5 +71,11 @@ class ArticleController extends BaseController {
 	{
 		$clientHas = Input::get('have');
 		return Article::where('id', '>', $clientHas)->count();
+	}
+
+	public function getArticle($id)
+	{
+		$article = Article::find($id);
+		return Response::json($article);
 	}
 }

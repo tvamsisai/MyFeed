@@ -48,7 +48,6 @@ body {
 
 
 .content {
-	padding-bottom: 100px;
 }
 
 .article {
@@ -156,4 +155,18 @@ body {
 	background-color: #AAA;
 	color: #FFF;
 	padding: 0 3px;
+}
+
+.pagination {
+	padding: 5px;
+	text-align: center;
+}
+.pagination a {
+	margin-right: 2px;
+	color: blue;
+}
+
+.footer {
+	padding-top: 50px;
+	padding-bottom: 100px;
 }

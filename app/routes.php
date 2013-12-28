@@ -12,16 +12,12 @@ Route::post('add', 'FeedController@save');
 
 Route::get('feeds', 'FeedController@showFeeds');
 
+Route::get('feed/{id}.json', 'FeedController@getFeed');
 Route::get('feed/{id}', 'FeedController@showFeed');
 Route::get('feed/{id}/refresh', 'FeedController@refreshFeed');
 
 Route::get('articles/refresh', 'ArticleController@refreshArticlePoints');
-
-
-Route::get('article/{id}', function ($id)
-{
-	echo(Article::find($id)->url);
-});
+Route::get('article/{id}.json', 'ArticleController@getArticle');
 
 Route::get('article/{id}/content', 'ArticleController@getKeywords');
 
