@@ -5,8 +5,8 @@ MyFeed is a **RSS Feeds aggregator** built on [Laravel 4](http://laravel.com/). 
 
 
 ### Recent Articles page
-![Recent Articles page](recent-feed.jpg)
+![Recent Articles page](recent-feed.png)
 
 
 ### Feeds Followed
-![Recent Articles page](feeds.jpg)
+![Recent Articles page](feeds.png)
