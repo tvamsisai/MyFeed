@@ -9,7 +9,7 @@
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script type="text/javascript" src="{{ URL::to('cookie.js') }}"></script>
 		<script>
-			var createNotif, article, feed;
+			var createNotif, article, feed, i = 0, j = 0, notification = new Array();
 			$(document).ready(function () {
 				<?
 					if(Article::all()->count() > 0)
@@ -27,18 +27,18 @@
 								$.getJSON("{{ URL::to('feed') }}/"+ article.feed_id +'.json',
 									function(data) {
 										feed = data;
-										notification = window.webkitNotifications.createNotification(
+										notification[i] = window.webkitNotifications.createNotification(
 					      					'', article.title, feed.name);
-										notification.onclick = function () {
+										notification[i].onclick = function () {
 											window.open(article.url);
-											notification.close();
+											notification[i].close();
 										}
-					    				notification.show();
-
-					    				if($.cookie('close') != 0)
+										if($.cookie('close') != 0)
 						    				setTimeout(function () {
-						    					notification.cancel();
+						    					notification[j++].close();
 						    				}, +$.cookie('close')*1000);
+
+					    				notification[i++].show();
 								});
 						});
 					} else {
