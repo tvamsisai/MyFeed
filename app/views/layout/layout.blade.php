@@ -11,13 +11,7 @@
 		<script>
 			var createNotif, article, feed, i = 0, j = 0, notification = new Array();
 			$(document).ready(function () {
-				<?
-					if(Article::all()->count() > 0)
-						$lastArticle = Article::orderBy('id', 'DESC')->first()->id;
-					else
-						$lastArticle = 0;
-				?>
-				var have = {{ $lastArticle }};
+				var have = {{ (Article::all()->count() > 0)?Article::orderBy('id', 'DESC')->first()->id:0 }};
 				var knownNew = 0;
 				createNotif = function  (stuff) {
 					if (window.webkitNotifications.checkPermission() == 0) {
