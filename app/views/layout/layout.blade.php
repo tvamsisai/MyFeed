@@ -8,6 +8,7 @@
 		<title>MyFeed</title>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
 		<script type="text/javascript" src="{{ URL::to('cookie.js') }}"></script>
+		<script type="text/javascript" src="{{ URL::to('keyboard.js') }}"></script>
 		<script>
 			var createNotif, article, feed, i = 0, j = 0, notification = new Array();
 			$(document).ready(function () {

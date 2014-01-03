@@ -1,4 +1,4 @@
-<div class="article">
+<div data-id="{{ $article->id }}" class="article">
 	<div class="vote">
 		<div data-id="{{ $article->id }}" class="up @if($article->vote > 0)voted@endif">&#x25B2;</div>
 		<div data-id="{{ $article->id }}" class="down @if($article->vote < 0)voted@endif">&#x25BC;</div>
